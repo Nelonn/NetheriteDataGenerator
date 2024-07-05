@@ -1,3 +1,8 @@
+# Netherite Data Generator
+
+Fork of Minestom Data Generator, read below...
+
+
 # Minestom Data
 
 [![license](https://img.shields.io/github/license/Minestom/MinestomDataGenerator.svg)](LICENSE)

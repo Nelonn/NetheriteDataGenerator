@@ -59,7 +59,7 @@ public final class EntityGenerator extends DataGenerator {
                 packetType = "BASE";
             }
             JsonObject entity = new JsonObject();
-            entity.addProperty("id", registry.getId(entityType));
+            //entity.addProperty("id", registry.getId(entityType));
             entity.addProperty("translationKey", entityType.getDescriptionId());
             entity.addProperty("packetType", packetType);
             addDefaultable(entity, "fireImmune", entityType.fireImmune(), false);
@@ -101,6 +101,7 @@ public final class EntityGenerator extends DataGenerator {
             addDefaultable(entity, "drag", findDrag(entityType), DEFAULT_DRAG);
             addDefaultable(entity, "acceleration", findAcceleration(entityType), DEFAULT_ACCELERATION);
             entity.addProperty("clientTrackingRange", entityType.clientTrackingRange());
+            entity.addProperty("updateInterval", entityType.updateInterval());
             entities.add(location.toString(), entity);
         }
         return entities;
