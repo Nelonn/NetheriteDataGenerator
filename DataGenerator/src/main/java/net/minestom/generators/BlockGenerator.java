@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviourHack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minestom.datagen.DataGenerator;
@@ -22,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
@@ -72,12 +75,24 @@ public final class BlockGenerator extends DataGenerator {
                 // List of properties
                 JsonObject properties = new JsonObject();
                 for (var property : block.getStateDefinition().getProperties()) {
-                    JsonArray values = new JsonArray();
+                    JsonObject propertyJson = new JsonObject();
                     final String key = property.getName();
-                    for (var value : property.getPossibleValues()) {
-                        values.add(value.toString().toLowerCase(Locale.ROOT));
+                    if (property instanceof BooleanProperty) {
+                        propertyJson.addProperty("type", "boolean");
+                    } else if (property instanceof IntegerProperty integerProperty) {
+                        propertyJson.addProperty("type", "integer");
+                        List<Integer> integers = integerProperty.getPossibleValues().stream().sorted().toList();
+                        propertyJson.addProperty("min", integers.getFirst());
+                        propertyJson.addProperty("max", integers.getLast());
+                    } else {
+                        propertyJson.addProperty("type", "enum");
+                        JsonArray values = new JsonArray();
+                        for (var value : property.getPossibleValues()) {
+                            values.add(value.toString().toLowerCase(Locale.ROOT));
+                        }
+                        propertyJson.add("values", values);
                     }
-                    properties.add(key, values);
+                    properties.add(key, propertyJson);
                 }
                 if (properties.size() > 0) {
                     blockJson.add("properties", properties);
