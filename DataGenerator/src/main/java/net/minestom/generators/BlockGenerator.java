@@ -43,7 +43,8 @@ public final class BlockGenerator extends DataGenerator {
             blockJson.addProperty("friction", block.getFriction());
             addDefaultable(blockJson, "speedFactor", block.getSpeedFactor(), 1f);
             addDefaultable(blockJson, "jumpFactor", block.getJumpFactor(), 1f);
-            blockJson.addProperty("defaultStateId", Block.BLOCK_STATE_REGISTRY.getId(defaultBlockState));
+            //blockJson.addProperty("defaultStateId", Block.BLOCK_STATE_REGISTRY.getId(defaultBlockState));
+            blockJson.addProperty("DefaultState", stringifyBlockState(defaultBlockState));
             addDefaultable(blockJson, "gravity", block instanceof FallingBlock, false);
             // Corresponding item
             Item correspondingItem = Item.BY_BLOCK.get(block);
@@ -82,19 +83,10 @@ public final class BlockGenerator extends DataGenerator {
             JsonObject blockStates = new JsonObject();
             for (BlockState bs : block.getStateDefinition().getPossibleStates()) {
                 JsonObject state = new JsonObject();
-                state.addProperty("stateId", Block.BLOCK_STATE_REGISTRY.getId(bs));
+                //state.addProperty("stateId", Block.BLOCK_STATE_REGISTRY.getId(bs));
                 writeState(block, bs, blockJson, state);
 
-                StringBuilder stateName = new StringBuilder("[");
-                for (var propertyEntry : bs.getValues().entrySet()) {
-                    if (stateName.length() > 1) {
-                        stateName.append(",");
-                    }
-                    stateName.append(propertyEntry.getKey().getName().toLowerCase(Locale.ROOT))
-                            .append("=")
-                            .append(propertyEntry.getValue().toString().toLowerCase(Locale.ROOT));
-                }
-                stateName.append("]");
+                String stateName = stringifyBlockState(bs);
 
                 blockStates.add(stateName.toString(), state);
             }
@@ -121,6 +113,20 @@ public final class BlockGenerator extends DataGenerator {
             }
         }
         return blocks;
+    }
+
+    private static String stringifyBlockState(BlockState bs) {
+        StringBuilder stateName = new StringBuilder("[");
+        for (var propertyEntry : bs.getValues().entrySet()) {
+            if (stateName.length() > 1) {
+                stateName.append(",");
+            }
+            stateName.append(propertyEntry.getKey().getName().toLowerCase(Locale.ROOT))
+                    .append("=")
+                    .append(propertyEntry.getValue().toString().toLowerCase(Locale.ROOT));
+        }
+        stateName.append("]");
+        return stateName.toString();
     }
 
     private void writeState(Block block, BlockState blockState, JsonObject blockJson, JsonObject state) {
