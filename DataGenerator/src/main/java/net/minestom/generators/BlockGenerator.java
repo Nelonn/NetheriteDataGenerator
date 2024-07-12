@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviourHack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minestom.datagen.DataGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,9 @@ public final class BlockGenerator extends DataGenerator {
             addDefaultable(blockJson, "jumpFactor", block.getJumpFactor(), 1f);
             //blockJson.addProperty("defaultStateId", Block.BLOCK_STATE_REGISTRY.getId(defaultBlockState));
             blockJson.addProperty("DefaultState", stringifyBlockState(defaultBlockState));
+            if (defaultBlockState.instrument() != NoteBlockInstrument.HARP) {
+                blockJson.addProperty("instrument", defaultBlockState.instrument().name());
+            }
             addDefaultable(blockJson, "gravity", block instanceof FallingBlock, false);
             // Corresponding item
             Item correspondingItem = Item.BY_BLOCK.get(block);
