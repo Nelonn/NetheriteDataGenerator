@@ -107,10 +107,10 @@ public final class BlockGenerator extends DataGenerator {
                     final String namespace = registry.getKey(validBlock).toString();
                     final JsonObject blockJson = blocks.get(namespace).getAsJsonObject();
 
-                    JsonObject blockEntityObject = new JsonObject();
-                    blockEntityObject.addProperty("namespace", location.toString());
-                    blockEntityObject.addProperty("id", blockEntityTypeRegistry.getId(blockEntityType));
-                    blockJson.add("blockEntity", blockEntityObject);
+                    //JsonObject blockEntityObject = new JsonObject();
+                    //blockEntityObject.addProperty("namespace", location.toString());
+                    //blockEntityObject.addProperty("id", blockEntityTypeRegistry.getId(blockEntityType));
+                    blockJson.addProperty("BlockEntity", location.toString());
                 }
             } catch (IllegalAccessException | NoSuchFieldException e) {
                 e.printStackTrace();
