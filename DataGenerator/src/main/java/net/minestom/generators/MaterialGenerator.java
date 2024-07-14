@@ -40,7 +40,7 @@ public final class MaterialGenerator extends DataGenerator {
             final var location = registry.getKey(item);
 
             JsonObject itemJson = new JsonObject();
-            itemJson.addProperty("id", registry.getId(item));
+            //itemJson.addProperty("id", registry.getId(item));
             itemJson.addProperty("translationKey", item.getDescriptionId());
 
             // Component prototype
