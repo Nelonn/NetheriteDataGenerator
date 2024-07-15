@@ -171,6 +171,8 @@ public final class BlockGenerator extends DataGenerator {
         appendState(blockJson, state, "occlusionShape", blockState.getOcclusionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO).toAabbs().toString(), String.class);
         appendState(blockJson, state, "visualShape", blockState.getVisualShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO, CollisionContext.empty()).toAabbs().toString(), String.class);
 
+        appendState(blockJson, state, "IsRandomlyTicking", blockState.isRandomlyTicking(), boolean.class);
+
         // Redstone bits
         appendState(blockJson, state, "redstoneConductor", blockState.isRedstoneConductor(EmptyBlockGetter.INSTANCE, BlockPos.ZERO), boolean.class);
         appendState(blockJson, state, "signalSource", blockState.isSignalSource(), false, boolean.class);
