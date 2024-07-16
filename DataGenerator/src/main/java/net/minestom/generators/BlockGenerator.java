@@ -31,8 +31,8 @@ import java.util.Set;
 
 public final class BlockGenerator extends DataGenerator {
     @Override
-    public JsonObject generate() {
-        JsonObject blocks = new JsonObject();
+    public JsonArray generate() {
+        JsonArray blocks = new JsonArray();
         var registry = BuiltInRegistries.BLOCK;
         var itemRegistry = BuiltInRegistries.ITEM;
         var blockEntityTypeRegistry = BuiltInRegistries.BLOCK_ENTITY_TYPE;
@@ -41,7 +41,8 @@ public final class BlockGenerator extends DataGenerator {
             final var defaultBlockState = block.defaultBlockState();
 
             JsonObject blockJson = new JsonObject();
-            blockJson.addProperty("id", registry.getId(block));
+            //blockJson.addProperty("id", registry.getId(block));
+            blockJson.addProperty("key", location.toString());
             blockJson.addProperty("translationKey", block.getDescriptionId());
             blockJson.addProperty("explosionResistance", block.getExplosionResistance());
             blockJson.addProperty("friction", block.getFriction());
@@ -110,7 +111,8 @@ public final class BlockGenerator extends DataGenerator {
                 blockStates.add(stateName.toString(), state);
             }
             blockJson.add("states", blockStates);
-            blocks.add(location.toString(), blockJson);
+            //blocks.add(location.toString(), blockJson);
+            blocks.add(blockJson);
         }
         // Add block entity
         for (var blockEntityType : blockEntityTypeRegistry) {
@@ -119,8 +121,9 @@ public final class BlockGenerator extends DataGenerator {
                 Field fcField = BlockEntityType.class.getDeclaredField("validBlocks");
                 fcField.setAccessible(true);
                 for (Block validBlock : (Set<Block>) fcField.get(blockEntityType)) {
-                    final String namespace = registry.getKey(validBlock).toString();
-                    final JsonObject blockJson = blocks.get(namespace).getAsJsonObject();
+                    //final String namespace = registry.getKey(validBlock).toString();
+                    //final JsonObject blockJson = blocks.get(namespace).getAsJsonObject();
+                    JsonObject blockJson = blocks.get(registry.getId(validBlock)).getAsJsonObject();
 
                     //JsonObject blockEntityObject = new JsonObject();
                     //blockEntityObject.addProperty("namespace", location.toString());
