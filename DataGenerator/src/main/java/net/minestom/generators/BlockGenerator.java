@@ -173,6 +173,7 @@ public final class BlockGenerator extends DataGenerator {
         appendState(blockJson, state, "interactionShape", blockState.getInteractionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO).toAabbs().toString(), String.class);
         appendState(blockJson, state, "occlusionShape", blockState.getOcclusionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO).toAabbs().toString(), String.class);
         appendState(blockJson, state, "visualShape", blockState.getVisualShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO, CollisionContext.empty()).toAabbs().toString(), String.class);
+        appendState(blockJson, state, "UseShapeForLightOcclusion", blockState.useShapeForLightOcclusion(), boolean.class);
 
         appendState(blockJson, state, "IsRandomlyTicking", blockState.isRandomlyTicking(), boolean.class);
 
